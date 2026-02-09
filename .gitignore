@@ -6,7 +6,9 @@ odoo-venv/
 
 # Fichiers Python compilés
 __pycache__/
-*.py[cod]
+estate/__pycache__/
+estate/models/__pycache__/
+*.py[cod]   
 
 # Logs et fichiers de configuration Odoo
 *.log

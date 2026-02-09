@@ -16,4 +16,40 @@ for rec in records:<!--records :une variable contenant les enregistrements séle
         <field name="trigger">on_create</field><!--trigger : moment où la règle doit être appliquée-->
         <field name="action_server_ids" eval="[(6, 0, [ref('set_state_today_action')])]"/><!--action_server_ids : actions à exécuter lorsque la règle est déclenchée-->
     </record>
+    <record id="action_cancel_old_properties" model="ir.actions.server">
+        <field name="name">Estate: Cancel Properties</field>
+        <field name="model_id" ref="estate.model_real_estate"/>
+        <field name="state">code</field>
+        <field name="code">
+properties = model.search([('state', '!=', 'cancelled')])
+for rec in properties:
+    rec.write({'state': 'cancelled'})
+        </field>
+    </record>
+    <?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="action_cancel_old_properties" model="ir.actions.server">
+        <field name="name">Estate: Cancel Properties</field>
+        <field name="model_id" ref="estate.model_real_estate"/>
+        <field name="state">code</field>
+        <field name="code">
+# On récupère tous les records qui ne sont pas encore annulés
+properties = model.search([('state', '!=', 'cancelled')])
+for rec in properties:
+    rec.write({'state': 'cancelled'})
+        </field>
+    </record>
+
+    <record id="ir_cron_cancel_properties_daily" model="ir.cron">
+        <field name="name">Estate: Cancel Properties Daily at 15:00</field>
+        <field name="model_id" ref="estate.model_real_estate"/>
+        <field name="state">code</field>
+        <field name="code">model.action_cancel_old_properties()</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field> <!-- frequence de l'execution : Exécuter tous les jours -->
+        <field name="interval_type">days</field><!-- type de l'intervalle : jours -->
+        <field name="numbercall">-1</field><!-- nombre d'exécutions : -1 pour indiquer une exécution infinie -->
+        <field name="nextcall" eval="(datetime.now().replace(hour=15, minute=0, second=0) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')"/> <!-- prochaine exécution : aujourd'hui à 15:00 ou demain à 15:00 si l'heure actuelle est déjà passée -->
+    </record>
+</odoo>
 </odoo>

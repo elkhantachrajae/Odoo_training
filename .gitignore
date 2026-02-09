@@ -1,0 +1,13 @@
+# Environnement virtuel
+odoo-venv/
+
+# Configuration VS Code
+.vscode/
+
+# Fichiers Python compilés
+__pycache__/
+*.py[cod]
+
+# Logs et fichiers de configuration Odoo
+*.log
+*.conf

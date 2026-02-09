@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="set_state_today_action" model="ir.actions.server">
+        <field name="name">Set State if Created is Today</field>
+        <field name="model_id" ref="estate.model_real_estate"/>
+        <field name="state">code</field>
+        <field name="code">
+for rec in records:<!--records :une variable contenant les enregistrements sélectionnés-->
+    if rec.create_date and rec.create_date.date() == datetime.date.today():
+        rec.write({'state': 'offer_received'})<!--write : méthode pour mettre à jour les champs de l'enregistrement dans la BD-->
+        </field>
+    </record>
+     <record id="rule_set_state_on_create" model="base.automation"><!--base.automation : modèle pour définir les règles d'automatisation-->
+        <field name="name">Auto Set State on Creation</field>
+        <field name="model_id" ref="estate.model_real_estate"/>
+        <field name="trigger">on_create</field><!--trigger : moment où la règle doit être appliquée-->
+        <field name="action_server_ids" eval="[(6, 0, [ref('set_state_today_action')])]"/><!--action_server_ids : actions à exécuter lorsque la règle est déclenchée-->
+    </record>
+</odoo>

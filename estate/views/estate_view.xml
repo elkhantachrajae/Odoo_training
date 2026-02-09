@@ -36,12 +36,11 @@
             <list string="Propriétés" decoration-success="state == 'new'" decoration-info="state == 'sold'" decoration-danger="state == 'cancelled'">
                 <field name="name"/>
                 <field name="postcode"/>
-                <field name="expected_price"/>
-                <field name="selling_price"/>
+                <field name="bedrooms"/>
+                <field name="living_area"/>
+                <field name="expected_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="selling_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                 <field name="date_availability"/>
-                <field name="state"/>
-                <field name="type_id"/>
-                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
             </list>
         </field>
     </record>
@@ -105,6 +104,11 @@
                                             invisible="status in ['refused']"/>
                                 </list>
                             </field>
+                        </page>
+                        <page string="Others">
+                            <group>
+                                <field name="description"/>
+                            </group>
                         </page>
                     </notebook>
                 </sheet>

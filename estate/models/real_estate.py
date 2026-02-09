@@ -12,14 +12,16 @@ class RealEstate(models.Model):
     state=fields.Selection([
         ('new','New'),
         ('sold','Sold'),
+        ('offer_received', 'Offer Received'),
         ('cancelled','Cancelled')],default='new',required=True)
+    currency_id=fields.Many2one("res.currency", string="Currency", default=lambda self: self.env.company.currency_id)
     
     def _default_date_availability(self):
         return fields.Date.today()
     postcode=fields.Char()
     date_availability=fields.Date(default=_default_date_availability)
-    expected_price=fields.Float()
-    selling_price=fields.Float(readonly=True)
+    expected_price=fields.Float(currency_field="currency_id")
+    selling_price=fields.Float(currency_field="currency_id",readonly=True)
     best_offer_price=fields.Float(string="Best Offer Price", compute="_compute_best_offer_price")
     bedrooms=fields.Integer(string="Number of Bedrooms", default=2)
     garden=fields.Boolean(string="Has Garden?",default=False)
@@ -31,6 +33,7 @@ class RealEstate(models.Model):
     offers_ids=fields.One2many("estate.offer","estate_id", string="Offers") #estate.offer child model, estate_id :parent id
     tag_ids=fields.Many2many("estate.tag", string="Tags")
     total_area=fields.Integer(string="Total Area", compute="_compute_total_area")
+    description=fields.Text(string="Description")
 
     @api.depends('living_area','garden_area')
     def _compute_total_area(self):

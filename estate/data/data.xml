@@ -1,8 +1,0 @@
-<odoo>
-    <data>
-        <record id ="house_1" model="real.estate">
-            <field name="name">House 1</field>
-            <field name="price">100000</field>
-        </record>
-    </data>
-</odoo>

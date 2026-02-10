@@ -22,7 +22,7 @@ class RealEstate(models.Model):
     date_availability=fields.Date(default=_default_date_availability)
     expected_price=fields.Float(currency_field="currency_id")
     selling_price=fields.Float(currency_field="currency_id",readonly=True)
-    best_offer_price=fields.Float(string="Best Offer Price", compute="_compute_best_offer_price")
+    best_offer_price=fields.Float(string="Best Offer Price", compute="_compute_best_offer_price",store=True)
     bedrooms=fields.Integer(string="Number of Bedrooms", default=2)
     garden=fields.Boolean(string="Has Garden?",default=False)
     living_area=fields.Integer(string="Living Area")

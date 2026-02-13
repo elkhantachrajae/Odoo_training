@@ -11,13 +11,16 @@ class EstateType(models.Model):
     def _compute_lines_count(self):
         for record in self:
             record.lines_count = len(record.property_ids)
+    
+
     def action_open_properties(self):
         return {
             "type": "ir.actions.act_window",
             "name": _("Properties"),
             "res_model": "real.estate",
-            "view_mode": "tree,form",
-            "target": "current",
+            "view_mode": "list,form",
+            "target": "current",# to open in the same window
             "domain": [("type_id", "=", self.id)],
             "context":{"default_type_id": self.id},
         }
+    

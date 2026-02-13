@@ -14,6 +14,10 @@
         'views/menus.xml',
         #data
         'data/server_actions.xml',
+        'data/mail_template_data.xml',
+        #reports
+        'report/estate_property_templates.xml',
+        'report/estate_property_reports.xml',
         ],
     "demo":['demo/data.xml',]
 

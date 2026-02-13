@@ -6,10 +6,11 @@
             <field name="name">Estate Management</field>
             <field name="sequence">10</field>
         </record>
+        <!-- Privilège pour les groupes de sécurité -->
         <record id="estate_privilige" model="res.groups.privilege">
             <field name="name">Estate Privilege</field>
             <field name="category_id" ref="estate_category"/>
-    </record>
+        </record>
         <!-- Groupe de sécurité pour les utilisateurs(default users)-->
         <record id="estate_user" model="res.groups">
             <field name="name">Estate User</field>
@@ -27,7 +28,8 @@
         <record id="estate_manager" model="res.groups">
             <field name="name">Estate Manager</field>
             <field name="privilege_id" ref="estate_privilige"/>
-            <field name="implied_ids" eval="[(4, ref('estate_agent'))]"/><!-- implied_ids : hérite des droits du groupe des agents si je suis admin je suis aussi agent-->
+            <field name="implied_ids" eval="[(4, ref('estate_agent'))]"/>
+            <!-- implied_ids : hérite des droits du groupe des agents si je suis admin je suis aussi agent-->
             <field name="user_ids" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
 
         </record>

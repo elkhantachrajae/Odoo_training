@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="report_property_offers">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="property">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                        <h1>
+                            <strong>Test Report</strong>
+                        </h1>  
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

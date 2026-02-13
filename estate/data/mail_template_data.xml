@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="email_template_offer_received" model="mail.template">
+            <field name="name">Offre Reçue</field>
+            <field name="model_id" ref="estate.model_real_estate"/>
+            <field name="subject">Nouvelle offre pour {{ object.name }}</field>
+            <field name="email_from">{{ user.email_formatted }}</field>
+            <field name="partner_to">{{ object.partner_id }}</field>
+            <field name="body_html" type="html">
+<div style="font-family: Arial, Helvetica, sans-serif;">
+    <p>Bonjour</p>
+    <p>Une offre a été reçue pour votre bien.</p>
+    <p>Cordialement,</p>
+</div>
+            </field>
+        </record>
+
+    </data>
+</odoo>

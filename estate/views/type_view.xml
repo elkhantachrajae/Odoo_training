@@ -25,9 +25,9 @@
         <field name="arch" type="xml">
             <form string="Estate Type">
                 <sheet>
-                    <div class="oe_button_box">
-                        <button name="action_open_properties" type="object" string="Properties" class="oe_stat_button" icon="fa-list"> <!-- stat button pour ouvrir les propriétés associées à ce type-->
-                            <field name="lines_count" widget="line_count"/> <!--counter-->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_properties" type="object" class="oe_stat_button" icon="fa-list">
+                            <field name="lines_count" widget="line_count"/>
                         </button>
                     </div>
                     <group>

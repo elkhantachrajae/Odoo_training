@@ -15,6 +15,23 @@
             </search>
         </field>
     </record>
+    <!-- ========== VUE LISTE(Tree) ========== -->
+    <record id="view_real_estate_list" model="ir.ui.view">
+        <field name="name">real.estate.list</field>
+        <field name="model">real.estate</field>
+        <field name="arch" type="xml">
+            <list string="Propriétés" decoration-success="state == 'new'" decoration-info="state == 'sold'"  decoration-danger="state == 'cancelled'" decoration-muted="state == 'offer_received'">
+                <field name="name"/>
+                <field name="type_id"/>
+                <field name="postcode"/>
+                <field name="bedrooms"/>
+                <field name="living_area"/>
+                <field name="expected_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="selling_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="date_availability"/>
+            </list>
+        </field>
+    </record>
     <!-- ========== VUE KANBAN ========== -->
    <record id="view_real_estate_kanban" model="ir.ui.view">
     <field name="name">real.estate.kanban</field>
@@ -26,7 +43,8 @@
             <field name="best_offer_price"/>
             <field name="selling_price"/>
             <field name="tag_ids"/>
-            <progressbar field="state" colors='{"new": "info", "sold": "success", "cancelled": "danger"}' sum_field="expected_price"/> <!-- progressbar pour visualiser l'état de la propriété avec des couleurs différentes -->
+            <!-- progressbar pour visualiser l'état de la propriété avec des couleurs différentes -->
+            <progressbar field="state" colors='{"new": "info", "sold": "success", "cancelled": "danger", "offer_received": "warning"}' sum_field="expected_price"/>
             <templates>
                 <t t-name="card">
                     <div class="oe_kanban_global_click"> <!-- oe_kanban_global_click : classe pour rendre toute la carte cliquable et ouvrir le formulaire -->
@@ -83,26 +101,9 @@
         <field name="arch" type="xml">
             <pivot string="Real Estate Pivot">
                 <field name="selling_price" type="measure"/>
-                <field name="type_id" type="row"/>
+                <field name="type_id" type="row"/> <!-- type: row pour l'axe des lignes -->
                 <field name="state" type="col"/> <!-- type: col pour l'axe des colonnes dans le tableau croisé dynamique -->
             </pivot>
-        </field>
-    </record>
-    <!-- ========== VUE LISTE(Tree) ========== -->
-    <record id="view_real_estate_list" model="ir.ui.view">
-        <field name="name">real.estate.list</field>
-        <field name="model">real.estate</field>
-        <field name="arch" type="xml">
-            <list string="Propriétés" decoration-success="state == 'new'" decoration-info="state == 'sold'" decoration-danger="state == 'cancelled'">
-                <field name="name"/>
-                <field name="type_id"/>
-                <field name="postcode"/>
-                <field name="bedrooms"/>
-                <field name="living_area"/>
-                <field name="expected_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                <field name="selling_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                <field name="date_availability"/>
-            </list>
         </field>
     </record>
         <!-- ========== VUE FORMULAIRE ========== -->
@@ -112,6 +113,11 @@
         <field name="arch" type="xml">
             <form string="Propriété">
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_show_offers" type="object" class="oe_stat_button" icon="fa-money">
+                            <field name="offer_high_count" widget="line_count"/>
+                        </button>
+                    </div>
                     <header>
                         <field name="state" widget="statusbar" 
                             statusbar_visible="new,offer_received,offer_accepted,sold" options="{'clickable': True}"/>
@@ -173,14 +179,29 @@
                         </page>
                     </notebook>
                 </sheet>
+                <!-- Chatter -->
+                    <chatter/>
             </form>
+        </field>
+    </record>
+    <record id="view_estate_offer_list" model="ir.ui.view">
+        <field name="name">estate.offer.list</field>
+        <field name="model">estate.offer</field>
+        <field name="arch" type="xml">
+            <list decoration-success="context.get('enable_decoration') and status == 'accepted'" decoration-danger="context.get('enable_decoration') and status == 'refused'">
+                                    <field name="price"/>
+                                    <field name="partner_id"/>
+                                    <field name="status" readonly="1"/>
+                                    <field name="validity"/>
+                                    <field name="date_deadline"/>
+            </list>
         </field>
     </record>
      <!-- ========== ACTION ========== -->
     <record id="estate_record" model="ir.actions.act_window">
         <field name="name">Real Estate</field>
         <field name="res_model">real.estate</field>
-        <field name="view_mode">graph,kanban,list,form,pivot</field>
+        <field name="view_mode">list,form,kanban,graph,pivot</field>
         <field name="context">{'search_default_filter_new': True}</field>
     </record>
     <record id="estate_offers_record" model="ir.actions.act_window">

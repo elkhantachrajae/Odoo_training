@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_reservation_management" model="ir.sequence">
+            <field name="name">Séquence Réservation</field>
+            <field name="code">reservation.reservation</field>
+            <field name="prefix">RES/</field>
+            <field name="padding">6</field> <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

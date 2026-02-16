@@ -41,3 +41,13 @@ class EstateOffer(models.Model):
         for record in self:
             if record.price <0:
                 raise ValidationError("The offer price must be higher than or equal to 0.")
+
+    def open_negotiation_wizard(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'negotiation.wizard',
+            'views': [(False, 'form')],
+            'target': 'new',
+        }

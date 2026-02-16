@@ -12,6 +12,7 @@
         'views/type_view.xml',
         'views/estate_tag.xml',
         'views/menus.xml',
+        'wizard/negotiation_wizard_view.xml',
         #data
         'data/server_actions.xml',
         'data/mail_template_data.xml',

@@ -1,0 +1,28 @@
+<odoo>
+    <record id="estate_property_view_form_inherit" model="ir.ui.view">
+        <field name="name">real.estate.form.inherit.premium</field>
+        <field name="model">real.estate</field>
+        <field name="inherit_id" ref="estate.view_real_estate_form"/> 
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='expected_price']" position="before">
+                <field name="commission" />
+            </xpath>
+
+            <xpath expr="//field[@name='best_offer_price']" position="attributes">
+                 <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='name']" position="before">
+                <span class="badge badge-info">VIP</span>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+               <page string="Premium Info">
+                    <group>
+                        <field name="is_premium"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

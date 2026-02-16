@@ -97,7 +97,7 @@ class RealEstate(models.Model):
         limit=1
         )
         # 2. On définit le prix par défaut (le max trouvé, ou 5001 si rien n'existe)
-        default_p = max_offer.price if max_offer else 5001
+        default_price = max_offer.price if max_offer else 5001
         return {
             "type": "ir.actions.act_window",
             "name": "Offers",
@@ -105,7 +105,7 @@ class RealEstate(models.Model):
             "view_mode": "list,form",
             "target": "current",
             "domain": [("price", ">", 5000),("estate_id", "=", self.id)],
-            "context": {"default_price": default_p,"default_estate_id": self.id,"enable_decoration": True},
+            "context": {"default_price": default_price,"default_estate_id": self.id,"enable_decoration": True,"status":"accepted"},
         }
     def write(self, vals):
         # 1. On exécute la sauvegarde standard et on récupère le résultat
@@ -143,3 +143,4 @@ class RealEstate(models.Model):
                 'force_email': True,
             },
         }
+    

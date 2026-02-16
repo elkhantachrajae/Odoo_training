@@ -1,0 +1,18 @@
+<odoo>
+    <record id="view_negotiation_wizard_form" model="ir.ui.view">
+        <field name="name">negotiation.wizard.form</field>
+        <field name="model">negotiation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Négocier le prix">
+                <group>
+                    <field name="new_price"/>
+                    <field name="reason"/>
+                </group>
+                <footer>
+                    <button name="action_apply" string="Confirmer" type="object" class="btn-primary"/>
+                    <button string="Annuler" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

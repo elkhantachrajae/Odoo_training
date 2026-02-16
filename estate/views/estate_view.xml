@@ -106,6 +106,18 @@
             </pivot>
         </field>
     </record>
+
+    <!-- ========== VUE CALENDAR ========== -->
+    <record id="view_real_estate_calendar" model="ir.ui.view">
+        <field name="name">real.estate.calendar</field>
+        <field name="model">real.estate</field>
+        <field name="arch" type="xml">
+            <calendar string="Disponibilités" date_start="date_availability" color="type_id">
+                <field name="name"/>
+                <field name="expected_price"/>
+            </calendar>
+        </field>
+    </record>
         <!-- ========== VUE FORMULAIRE ========== -->
     <record id="view_real_estate_form" model="ir.ui.view">
         <field name="name">real.estate.form</field>
@@ -169,6 +181,9 @@
                                     <button name="action_refuse_offer" type="object" icon="fa-times" 
                                             title="Refuse Offer"
                                             invisible="status in ['refused']"/>
+                                    
+                                    <button name="open_negotiation_wizard" type="object" icon="fa-exchange" 
+                                            title="Negotiate Offer"/>
                                 </list>
                             </field>
                         </page>
@@ -188,7 +203,7 @@
         <field name="name">estate.offer.list</field>
         <field name="model">estate.offer</field>
         <field name="arch" type="xml">
-            <list decoration-success="context.get('enable_decoration') and status == 'accepted'" decoration-danger="context.get('enable_decoration') and status == 'refused'">
+            <list decoration-success="context.get('enable_decoration') and status == context.get('status')" decoration-danger="context.get('enable_decoration') and status == 'refused'">
                                     <field name="price"/>
                                     <field name="partner_id"/>
                                     <field name="status" readonly="1"/>
@@ -201,7 +216,7 @@
     <record id="estate_record" model="ir.actions.act_window">
         <field name="name">Real Estate</field>
         <field name="res_model">real.estate</field>
-        <field name="view_mode">list,form,kanban,graph,pivot</field>
+        <field name="view_mode">list,form,kanban,graph,pivot,calendar</field>
         <field name="context">{'search_default_filter_new': True}</field>
     </record>
     <record id="estate_offers_record" model="ir.actions.act_window">

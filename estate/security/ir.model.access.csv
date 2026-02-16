@@ -11,4 +11,6 @@ access_estate_offer_agent,estate.offer.agent,model_estate_offer,estate_agent,1,1
 access_estate_tag_agent,estate.tag.agent,model_estate_tag,estate_agent,1,1,1,0
 access_estate_tag_manager,estate.tag.manager,model_estate_tag,estate_manager,1,1,1,1
 access_estate_offer_manager,estate.offer.manager,model_estate_offer,estate_manager,1,1,1,1
-
+access_negotiation_wizard_user,negotiation.wizard.user,model_negotiation_wizard,estate_user,1,0,0,0
+access_negotiation_wizard_agent,negotiation.wizard.agent,model_negotiation_wizard,estate_agent,1,1,1,0
+access_negotiation_wizard_manager,negotiation.wizard.manager,model_negotiation_wizard,estate_manager,1,1,1,1

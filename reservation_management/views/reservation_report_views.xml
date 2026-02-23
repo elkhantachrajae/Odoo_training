@@ -1,0 +1,36 @@
+<odoo>
+    <record id="view_reservation_report_pivot" model="ir.ui.view">
+        <field name="name">reservation.report.pivot</field>
+        <field name="model">reservation.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Analyse des Réservations" sample="1">
+                <field name="partner_id" type="row"/>
+                <field name="state" type="row"/>
+                <field name="total_montant" type="measure"/>
+                <field name="nbr_lignes" type="measure"/>
+                <field name="total_quantite" type="measure"/>
+
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_reservation_report_graph" model="ir.ui.view">
+        <field name="name">reservation.report.graph</field>
+        <field name="model">reservation.report</field>
+        <field name="arch" type="xml">
+            <graph string="Analyse des Réservations" type="bar" sample="1">
+                <field name="partner_id"/>
+                <field name="state" type="row"/>
+                <field name="total_montant" type="measure"/>
+                <field name="nbr_lignes" type="measure"/>
+                <field name="total_quantite" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_reservation_report_all" model="ir.actions.act_window">
+        <field name="name">Reporting</field>
+        <field name="res_model">reservation.report</field>
+        <field name="view_mode">pivot,graph</field>
+    </record>
+</odoo>

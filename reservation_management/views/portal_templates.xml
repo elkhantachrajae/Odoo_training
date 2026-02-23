@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_home_reservation" name="Show Reservations" customize_show="True" inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title"><span class="text-primary font-weight-bold">Mes Réservations</span></t>
+                <t t-set="url" t-value="'/my/reservations'"/>
+                <t t-set="config_card" t-value="True"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_reservations_template" name="Mes Réservations">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Mes Réservations</t>
+            </t>
+
+            <t t-if="not reservations">
+                <div class="alert alert-warning mt-3">Vous n'avez pas encore de réservations.</div>
+            </t>
+
+            <t t-if="reservations" t-call="portal.portal_table">
+                <thead class="bg-primary text-white">
+                    <tr>
+                        <th>Référence</th>
+                        <th class="text-center"><i class="fa fa-calendar-check-o"/> Début</th>
+                        <th class="text-center"><i class="fa fa-calendar-times-o"/> Fin</th>
+                        <th class="text-center">Statut</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="reservations" t-as="res">
+                        <tr>
+                            <td class="align-middle">
+                                <a t-attf-href="/my/reservations/#{res.id}" class="font-weight-bold text-primary">
+                                    <span t-field="res.name"/>
+                                </a>
+                            </td>
+                            <td class="text-center align-middle">
+                                <span t-field="res.date_reservation" t-options='{"widget": "date"}'/>
+                            </td>
+                            <td class="text-center align-middle">
+                                <span t-field="res.date_end_reservation" t-options='{"widget": "date"}'/>
+                            </td>
+                            <td class="text-center align-middle">
+                                <span t-attf-class="badge badge-pill #{'badge-info' if res.state == 'draft' else 'badge-success' if res.state == 'confirmed' else 'badge-danger'}">
+                                    <i t-attf-class="fa #{'fa-clock-o' if res.state == 'draft' else 'fa-check' if res.state == 'confirmed' else 'fa-times'}"/>
+                                    <span t-field="res.state"/>
+                                </span>
+                            </td>
+                            <td class="text-right align-middle">
+                                <a t-attf-href="/report/pdf/reservation_management.report_reservation_template/#{res.id}" 
+                                class="btn btn-outline-secondary btn-sm" title="Télécharger PDF">
+                                    <i class="fa fa-file-pdf-o text-danger"/>
+                                </a>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+        </t>
+    </template>
+    <template id="portal_reservation_page" name="Détail de la Réservation" inherit_id="portal.portal_sidebar" primary="True">
+        <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+            <div class="container mt-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="mb-0 text-primary">
+                        <i class="fa fa-bookmark-o"/> <span t-field="res.name"/>
+                    </h2>
+                    <div class="btn-group">
+                        <a class="btn btn-primary" t-attf-href="/report/pdf/reservation_management.reservation_report_template/#{res.id}" target="_blank">
+                            <i class="fa fa-download"/> Imprimer
+                        </a>
+                    </div>
+                </div>
+
+                <div t-if="res.state == 'cancel'" class="alert alert-danger shadow-sm">
+                    <i class="fa fa-warning"/> Cette réservation a été annulée.
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-header bg-white font-weight-bold">
+                                Détails de la réservation
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <small class="text-muted d-block">Client</small>
+                                        <strong class="h5" t-field="res.partner_id.name"/>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <small class="text-muted d-block">Statut actuel</small>
+                                        <span t-attf-class="badge badge-pill #{'badge-info' if res.state == 'draft' else 'badge-success' if res.state == 'confirmed' else 'badge-danger'}">
+                                            <span t-field="res.state"/>
+                                        </span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <small class="text-muted d-block text-uppercase small">Date de début</small>
+                                        <p class="font-weight-bold" t-field="res.date_reservation" t-options='{"widget": "date"}'/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <small class="text-muted d-block text-uppercase small">Date de fin</small>
+                                        <p class="font-weight-bold" t-field="res.date_end_reservation" t-options='{"widget": "date"}'/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow-sm overflow-hidden">
+                            <table class="table table-hover mb-0">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th class="border-top-0">Article</th>
+                                        <th class="text-right border-top-0">Quantité</th>
+                                        <th class="text-right border-top-0">Prix Unitaire</th>
+                                        <th class="text-right border-top-0">Sous-total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="res.line_ids" t-as="line">
+                                        <tr>
+                                            <td><span t-field="line.product_id.name"/></td>
+                                            <td class="text-right"><span t-field="line.quantity"/></td>
+                                            <td class="text-right"><span t-field="line.price_unit"/></td>
+                                            <td class="text-right font-weight-bold">
+                                                <span t-field="line.price_subtotal" t-options='{"widget": "float", "precision": 2}'/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-4">
+                        <div class="card shadow-sm border-primary mb-4">
+                            <div class="card-body text-center">
+                                <img t-att-src="image_data_uri(res.partner_id.image_128)" t-if="res.partner_id.image_128" 
+                                    class="rounded-circle mb-3" style="width: 80px; height: 80px; object-fit: cover;"/>
+                                <h5 t-field="res.partner_id.name"/>
+                                <hr/>
+                                <p class="small text-muted mb-0"><i class="fa fa-envelope"/> <span t-field="res.partner_id.email"/></p>
+                                <p class="small text-muted"><i class="fa fa-phone"/> <span t-field="res.partner_id.phone"/></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

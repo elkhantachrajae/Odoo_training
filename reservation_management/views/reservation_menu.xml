@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <menuitem id="reservation_menu_root" 
+                  name="Reservation Management" 
+                  sequence="10"/>
+
+        <menuitem id="reservation_menu_properties" 
+                  name="Reservations" 
+                  parent="reservation_menu_root" 
+                  action="reservation_record" 
+                  sequence="10"/>
+
+        <menuitem id="menu_reservation_report" 
+                  name="Reporting" 
+                  parent="reservation_menu_root" 
+                  action="action_reservation_report_all" 
+                  sequence="20"/>
+    </data>
+</odoo>

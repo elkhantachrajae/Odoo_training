@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="action_reservation_report" model="ir.actions.report">
+        <!-- le nom du rapport (fichier) si n'est pas specifie -->
+        <field name="name">Rapport de Réservation</field> 
+        <!-- le modèle sur lequel le rapport est basé -->
+        <field name="model">reservation.reservation</field>
+        <!-- le type de rapport, ici 'qweb-pdf' pour générer un PDF à partir d'un template QWeb -->
+        <!-- qweb-html pour générer un document HTML à partir d'un template QWeb -->
+        <field name="report_type">qweb-pdf</field> 
+        <!-- le nom du template QWeb à utiliser pour générer le rapport (obligatoire)-->
+        <field name="report_name">reservation_management.report_reservation_template</field>
+        <field name="report_file">reservation_management.report_reservation_template</field>
+         <!-- binding_type : type de liaison, ici 'report' pour indiquer que c'est un rapport -->
+         <!-- binding_type : optionnel puisque ir.actions.report indique ca implicitement-->
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

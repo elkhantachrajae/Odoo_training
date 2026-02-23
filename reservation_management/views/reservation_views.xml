@@ -1,0 +1,96 @@
+<odoo>
+    <!--Actions-->
+    <record id="reservation_record" model="ir.actions.act_window">
+        <field name="name">Reservations</field>
+        <field name="res_model">reservation.reservation</field>
+        <field name="view_mode">list,form,kanban</field>
+    </record>
+
+    <record id="reservation_line_action" model="ir.actions.act_window">
+        <field name="name">Lines</field>
+        <field name="res_model">reservation.line</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+
+    <record id="reservation_list_view" model="ir.ui.view">
+        <field name="name">reservation.reservation.list</field>
+        <field name="model">reservation.reservation</field>
+        <field name="arch" type="xml">
+            <list string="Reservations" decoration-success="state == 'confirmed'" decoration-danger="state == 'cancelled'" decoration-info="state == 'draft'">
+                <header>
+                    <button name="%(action_reservation_excel_wizard)d" 
+                            string="Imprimer" 
+                            type="action" 
+                            class="btn-primary"/>
+                </header>
+                <field name="name"/>
+                <field name="date_reservation"/>
+                <field name="date_end_reservation"/>
+                <field name="partner_id"/>
+                <field name="amount_total"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="reservation_form_view" model="ir.ui.view">
+        <field name="name">reservation.reservation.form</field>
+        <field name="model">reservation.reservation</field>
+        <field name="arch" type="xml">
+            <form string="Reservation">
+                <header>
+                    <button name="action_confirm" string="Confirmer" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_cancel" string="Annuler" type="object" class="btn-secondary" invisible="state != 'confirmed'"/>
+                    <button name="action_imprimer_reservation" string="Imprimer" type="object" class="btn btn-primary"/>
+                    <field name="state" widget="statusbar" 
+                            statusbar_visible="draft,confirmed,cancelled" options="{'clickable': True}"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_sale_order" type="object" class="oe_stat_button" 
+                                icon="fa-pencil-square-o" invisible="not sale_order_id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Devis</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                     </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="date_reservation"/>
+                            <field name="date_end_reservation"/>
+                            <field name="amount_total" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="quantity"/>
+                                    <field name="price_unit"/>
+                                    <field name="price_subtotal" readonly="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Autres Informations">
+                            <group>
+                                <field name="description"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <!-- Chatter -->
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+</odoo>

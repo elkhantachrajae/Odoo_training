@@ -1,0 +1,26 @@
+<odoo>
+    <record id="view_reservation_excel_wizard_form" model="ir.ui.view">
+        <field name="name">reservation.excel.wizard.form</field>
+        <field name="model">reservation.excel.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Exporter en Excel">
+                <p>Cliquez sur le bouton ci-dessous pour générer le rapport Excel des réservations sélectionnées.</p>
+                <field name="filtre_date"/>
+                <footer>
+                    <button name="action_generate_excel" string="Générer Excel" type="object" class="btn-primary"/>
+                    <!-- special="cancel" gere la fermeture automatique de la fenêtre-->
+                    <button string="Annuler" class="btn-secondary" special="cancel"/> 
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_reservation_excel_wizard" model="ir.actions.act_window">
+        <field name="name">Export Excel</field>
+        <field name="res_model">reservation.excel.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_reservation_reservation"/>
+        <field name="binding_view_types">list</field>
+    </record>
+</odoo>

@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_reservation_reservation,reservation.reservation,model_reservation_reservation,base.group_user,1,1,1,1
+access_reservation_line,reservation.line,model_reservation_line,base.group_user,1,1,1,1
+access_reservation_excel_wizard,reservation.excel.wizard,model_reservation_excel_wizard,base.group_user,1,1,1,1
+access_reservation_report,reservation.report,model_reservation_report,base.group_user,1,0,0,0
+access_portal_reservation_reservation,portal_reservation.reservation,model_reservation_reservation,base.group_portal,1,1,1,1
+access_portal_reservation_line,reservation_portal.line,model_reservation_line,base.group_portal,1,1,1,1
+
